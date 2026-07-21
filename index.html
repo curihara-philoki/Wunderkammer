@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wunderkammer — curihara philoki</title>
+<meta name="description" content="curihara philoki の個人陳列室。絵、音、モックアップ、ことば遊び、そしてアイデアの種箱。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="entrance" id="top">
+  <nav class="nav">
+    <span class="nav-brand">Wunderkammer</span>
+    <button class="nav-toggle" id="navToggle" aria-label="メニュー" aria-expanded="false">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#gallery">ギャラリー</a></li>
+      <li><a href="#sound">サウンドルーム</a></li>
+      <li><a href="#mockups">モックアップ室</a></li>
+      <li><a href="#wordplay">ことば遊び</a></li>
+      <li><a href="#wunderkammer">種箱</a></li>
+      <li><a href="#contact">依頼・連絡</a></li>
+    </ul>
+  </nav>
+
+  <div class="entrance-content">
+    <p class="eyebrow">個人陳列室</p>
+    <h1>Wunderkammer</h1>
+    <p class="lede">
+      curihara philoki の好奇心の棚。絵、音、思いつきのモックアップ、ことば遊び、<br>
+      そしてまだかたちになっていないアイデアの種を並べています。<br>
+      持って帰ってもいいし、書き込んでいってもいい。ここは開けっぱなしの棚です。
+    </p>
+    <a class="scroll-cue" href="#gallery">下へ ↓</a>
+  </div>
+</header>
+
+<main>
+
+  <section id="gallery" class="room">
+    <h2 class="room-title">ギャラリー</h2>
+    <p class="room-note">絵をぽつぽつと並べていきます。</p>
+    <div class="gallery-grid" id="galleryGrid">
+      <p class="empty-state">まだ何も飾っていません。準備でき次第、ここに絵が並びます。</p>
+    </div>
+  </section>
+
+  <section id="sound" class="room room-alt">
+    <h2 class="room-title">サウンドルーム</h2>
+    <p class="room-note">音源は Bandcamp に置いています。</p>
+
+    <div class="sound-card">
+      <p>Bandcamp: <a href="https://philoki.bandcamp.com" target="_blank" rel="noopener">philoki.bandcamp.com</a></p>
+      <!--
+        Bandcamp の各リリースページ → Share / Embed → 埋め込みコードをコピーして、
+        下の div の中にそのまま貼り付けてください。
+        例: <iframe style="border: 0; width: 350px; height: 470px;" src="https://bandcamp.com/EmbeddedPlayer/album=XXXXXXXXXX/size=large/..." seamless></iframe>
+      -->
+      <div class="embed-slot" id="bandcampEmbed">
+        <p class="embed-placeholder">(ここに Bandcamp の埋め込みコードを貼ります)</p>
+      </div>
+    </div>
+
+    <div class="sound-card">
+      <p>プレイリスト</p>
+      <!--
+        Spotify / Apple Music などのプレイリストの「埋め込みコードを取得」からiframeをコピーして、
+        下の div の中に貼り付けてください。
+      -->
+      <div class="embed-slot" id="playlistEmbed">
+        <p class="embed-placeholder">(ここにプレイリストの埋め込みコードを貼ります)</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="mockups" class="room">
+    <h2 class="room-title">モックアップ室</h2>
+    <p class="room-note">つくりかけのアプリや企画のモックを置く場所です。</p>
+    <div class="mockup-grid" id="mockupGrid">
+      <p class="empty-state">まだ展示物なし。試作ができ次第ここに並びます。</p>
+    </div>
+  </section>
+
+  <section id="wordplay" class="room room-alt">
+    <h2 class="room-title">ことば遊び</h2>
+    <p class="room-note">回文集は simplememo に置いています。</p>
+    <a class="external-card" href="http://simp.ly/p/8bBfsK" target="_blank" rel="noopener">
+      <span class="external-card-title">回文集を読む</span>
+      <span class="external-card-url">simp.ly/p/8bBfsK</span>
+    </a>
+  </section>
+
+  <section id="wunderkammer" class="room room-wunderkammer">
+    <h2 class="room-title">Wunderkammer — アイデアの種箱</h2>
+    <p class="room-note">
+      ここは企画の発酵モトを置いておく棚です。思いついたけど手をつけていないアイデア、<br>
+      誰かに拾ってほしい種を置いていきます。持って帰るのも、育てるのも自由。<br>
+      あなたのアイデアの種を置いていってもらってもかまいません。
+    </p>
+
+    <a class="plant-seed-btn" id="plantSeedBtn" href="https://github.com/curihara-philoki/Wunderkammer/issues/new" target="_blank" rel="noopener">
+      種を蒔く(書き込む) →
+    </a>
+
+    <div class="seed-list" id="seedList">
+      <p class="empty-state">読み込み中…</p>
+    </div>
+  </section>
+
+  <section id="contact" class="room">
+    <h2 class="room-title">依頼・連絡</h2>
+    <p class="room-note">仕事の相談、企画の相談、なんでもお気軽にどうぞ。</p>
+    <ul class="contact-list">
+      <li><a href="mailto:curihara.philoki@gmail.com">Gmail — curihara.philoki@gmail.com</a></li>
+      <li><a href="https://www.instagram.com/curihara_philoki/" target="_blank" rel="noopener">Instagram — @curihara_philoki</a></li>
+      <li><a href="https://x.com/curiharaphiloki" target="_blank" rel="noopener">X — @curiharaphiloki</a></li>
+      <li><a href="https://philoki.bandcamp.com" target="_blank" rel="noopener">Bandcamp — philoki.bandcamp.com</a></li>
+      <li><a href="https://github.com/curihara-philoki" target="_blank" rel="noopener">GitHub — @curihara-philoki</a></li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>© <span id="year"></span> curihara philoki — <a href="#top">上へ戻る</a></p>
+</footer>
+
+<script src="assets/js/main.js"></script>
+<script src="assets/js/wunderkammer.js"></script>
+</body>
+</html>
