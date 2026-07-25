@@ -1,0 +1,27 @@
+{
+  ".audio": {
+    "desc": "断片がいっぱいある。ミキシングしてほしい。素敵な声あつめたい。",
+    "links": [
+      { "label": "Bandcamp", "url": "https://philoki.bandcamp.com" },
+      { "label": "SoundCloud", "url": "https://soundcloud.com/rokihi" }
+    ]
+  },
+  ".visual": {
+    "desc": "絵、いっぱいある。スキャナがほしい。でかい絵もある。いろいろかきたい。フィルム写真、映像なども。",
+    "links": []
+  },
+  ".app": {
+    "desc": "アプリとかソフトウェアモックアップ。実装たいへん。だれかこれをもとに好きにつくってくれたらいい。",
+    "links": [
+      { "label": "GitHub", "url": "https://github.com/curihara-philoki" }
+    ]
+  },
+  ".text": {
+    "desc": "ことば遊び。ことばのことばかり。回文集折本をだしたい。",
+    "links": []
+  },
+  ".seed": {
+    "desc": "企画書[かもしれない]。種、発酵酛、構想、open-source framework protocol、好きにつかってくれ。なんか種まいてってくれてもうれしい。",
+    "links": []
+  }
+}

@@ -1,0 +1,93 @@
+[
+  {
+    "date": "2026-07-23",
+    "tags": [".audio"],
+    "title": "tokyo-tribal [42fragments'24]",
+    "link": "https://philoki.bandcamp.com/album/42fragments24-tokyo-tribal",
+    "embed": "<iframe style=\"border: 0; width: 100%; max-width: 400px; height: 472px;\" src=\"https://bandcamp.com/EmbeddedPlayer/album=2736708630/size=large/bgcol=333333/linkcol=0f91ff/artwork=small/transparent=true/\" seamless><a href=\"https://philoki.bandcamp.com/album/42fragments24-tokyo-tribal\">42fragments'24 [tokyo-tribal] by philoki</a></iframe>"
+  },
+  {
+    "date": "2026-07-23",
+    "tags": [".audio"],
+    "title": "温泉音楽集",
+    "body": "温泉っぽい曲あつめてる。あったら教えて。",
+    "embed": "<iframe data-testid=\"embed-iframe\" style=\"border-radius:12px\" src=\"https://open.spotify.com/embed/playlist/3RaeY6H9i2aQqOGnCfXYLb?utm_source=generator&theme=0\" width=\"100%\" height=\"152\" frameBorder=\"0\" allowfullscreen loading=\"lazy\"></iframe>"
+  },
+  {
+    "date": "2024-01-01",
+    "dateLabel": "2024〜",
+    "pinned": true,
+    "tags": [".text"],
+    "title": "回文集",
+    "link": "http://simp.ly/p/8bBfsK",
+    "rotator": "palindromes"
+  },
+  {
+    "date": "2015-05-16",
+    "tags": [".visual"],
+    "title": "もの想うパンダ",
+    "body": "LINEスタンプ、がんばってつくったな",
+    "link": "https://store.line.me/stickershop/product/1142161/ja",
+    "images": [
+      "assets/gallery/panda-sheet-1.jpg",
+      "assets/gallery/panda-sheet-2.jpg",
+      "assets/gallery/panda-sheet-3.jpg"
+    ]
+  },
+  {
+    "date": "2026-07-23",
+    "tags": [".app"],
+    "title": "praylist（仮称）",
+    "linkLabel": "praylist@github",
+    "link": "https://github.com/otaotaotao/UniversalPlaylist/blob/main/uniplay_spec_jp.md",
+    "sections": [
+      { "lead": "ポストカードや個人ラジオみたいな、プレイリスト共有ツール。プラットフォームに囲い込まれない。", "more": "ひとことコメントやレイアウトもできる（ようになるといい）" },
+      { "lead": "今はexportifyを使ったspotify→appleの試作品。" }
+    ]
+  },
+  {
+    "date": "2026-07-23",
+    "tags": [".app"],
+    "title": "music.txt（仮称）",
+    "linkLabel": "music.txt@github",
+    "link": "https://github.com/otaotaotao/music.txt/blob/main/README.ja.md",
+    "sections": [
+      { "lead": "ブログ記事に音楽を埋め込むためのツール。", "more": "本文を貼り付けて、曲を鳴らしたい場所に[[URL]]と書くだけで、ブログのHTML編集画面にそのまま貼り付けられるHTMLが生成される。コードを書く必要はない。" }
+    ]
+  },
+  {
+    "date": "2026-07-23",
+    "tags": [".app"],
+    "title": "12monkeys（寄らば文殊の猿知恵）（仮）",
+    "linkLabel": "12monkeys@github",
+    "link": "https://github.com/otaotaotao/three-monkeys",
+    "sections": [
+      { "lead": "複数のAIエージェントに同時送信できる拡張機能。", "more": "自分の発言だけまとめてtxtに出力できる。さらに、各AIの発言をまとめてヤツらに会議させるみたいな機能も。中毒になってないかチェック機能つけたい。" },
+      { "lead": "派生品としてチャット型エディタも。", "more": "入力のまとまりごとに、タイムスタンプつきでtxtに出力でき、自分の文章のリズムを好きに可視化できる（ようになるといい）。" }
+    ]
+  },
+  {
+    "date": "2026-07-25",
+    "tags": [".seed"],
+    "title": "会わないマッチングアプリ「ヤッホー」",
+    "body": "「そのひとがマッチングアプリをつくりたいなら、どのようなシステムでマッチングさせるか」でマッチングさせ、世界のこの辺にこのくらい被ってるひとがいます、ってのを数字じゃなく表示されて。ただヤッホー/yoo-hoo、って一言だけ送れるアプリ/webサービス"
+  },
+  {
+    "date": "2026-07-25",
+    "tags": [".seed"],
+    "title": "その世の〈　〉",
+    "body": "あなたの好きなものを軸としたインスタレーション。たとえば「その世のお茶」なら、お茶を軸としたインスタレーション。"
+  },
+  {
+    "date": "2026-07-25",
+    "tags": [".seed"],
+    "title": "AIとの共存(人と人の橋渡し)",
+    "body": "アイデアの海:アイデアについてのアイデア。なにかやりたい人に、誰かの思いつきが漂着するといい。\n漫画制作の橋渡し:目だけ描きたい人がいてもいいし、猫だけとか、セリフのレタリングだけとか。\n物々交換の場:商品名じゃなく、こんなのがほしいと具体的に書く。いらないもの、ここが好きだけどここがいまひとつ、でもそこがいい、という人もいるかもしれない。\nみたいな。"
+  },
+  {
+    "date": "2026-07-25",
+    "tags": [".seed"],
+    "title": "すてきな部屋",
+    "body": "いろんな人が個室をプロデュース。電話ボックス的アロマ瞑想空間とか、居心地の良いカラオケボックスとか、酒のまなくてもいい軽く食べられるちいさい食堂とか、お弁当くつろいでひとり食べられるとことか、簡易なバーやお茶スタンド、ハーブ白湯補給所、草間彌生のあれみたいなガラス張りのダンス練習空間とか、デレク・ジャーマンの庭とか洞窟とか森とか"
+  }
+]
