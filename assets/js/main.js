@@ -153,6 +153,14 @@ function stopRotators() {
   rotatorIntervals = [];
 }
 
+function setRotatorText(textEl, text) {
+  textEl.textContent = text;
+  const lines = (text.match(/\n/g) || []).length + 1;
+  textEl.classList.remove('lines-2', 'lines-3plus');
+  if (lines === 2) textEl.classList.add('lines-2');
+  else if (lines >= 3) textEl.classList.add('lines-3plus');
+}
+
 async function initRotators() {
   const els = document.querySelectorAll('.entry-rotator[data-rotator]');
   for (const el of els) {
@@ -160,13 +168,13 @@ async function initRotators() {
     if (!items.length) continue;
     const textEl = el.querySelector('.rotator-text');
     let idx = 0;
-    textEl.textContent = items[idx];
+    setRotatorText(textEl, items[idx]);
 
     const id = setInterval(() => {
       textEl.classList.add('is-transitioning');
       setTimeout(() => {
         idx = (idx + 1) % items.length;
-        textEl.textContent = items[idx];
+        setRotatorText(textEl, items[idx]);
         textEl.classList.remove('is-transitioning');
       }, 300);
     }, 2000);

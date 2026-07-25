@@ -158,7 +158,8 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 600; margin: 0; }
 }
 
 .feed-year {
-  font-family: "Klee One", var(--serif);
+  font-family: var(--serif);
+  font-weight: 400;
   color: var(--gold);
   font-size: 1.4rem;
   margin-top: 3rem;
@@ -293,6 +294,15 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 600; margin: 0; }
 }
 .rotator-text.is-transitioning {
   opacity: 0;
+}
+
+.rotator-text.lines-2 {
+  font-size: 1rem;
+}
+
+.rotator-text.lines-3plus {
+  font-size: 0.7rem;
+  line-height: 1.3;
 }
 
 .entry-source {
