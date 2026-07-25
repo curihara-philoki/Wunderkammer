@@ -277,7 +277,7 @@ async function init() {
   await loadTitles();
   const local = await loadLocalEntries();
   await loadTagDescriptions();
-  allEntries = local.sort((a, b) => new Date(b.date) - new Date(a.date));
+  allEntries = local.filter(e => !e.hidden).sort((a, b) => new Date(b.date) - new Date(a.date));
   buildTagFilter();
   renderFeed('all');
 }
