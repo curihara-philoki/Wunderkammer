@@ -272,6 +272,12 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 600; margin: 0; }
 }
 .entry-embed iframe { max-width: 100%; }
 
+.entry-after-embed {
+  color: var(--ink-dim);
+  font-size: 0.9rem;
+  margin: 0.6rem 0 0;
+}
+
 .entry-rotator {
   margin-top: 1rem;
   min-height: 4.5em;

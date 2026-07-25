@@ -6,6 +6,14 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
+// Escapes text, then turns [label](url) into a link.
+function renderTextWithLinks(str) {
+  return escapeHtml(str).replace(
+    /\[([^\]]+)\]\(([^)]+)\)/g,
+    '<a href="$2" target="_blank" rel="noopener">$1</a>'
+  );
+}
+
 // ---- Title cycle: steps through the list in order, once per second ----
 let titlePool = [];
 let titleIndex = 0;
@@ -94,8 +102,8 @@ async function loadLocalEntries() {
 function renderSections(sections) {
   return sections.map(s => `
     <div class="entry-section">
-      <p class="entry-lead">${escapeHtml(s.lead)}${s.more ? ' <button class="read-more-btn" type="button">もっと読む</button>' : ''}</p>
-      ${s.more ? `<p class="entry-more" hidden>${escapeHtml(s.more)}</p>` : ''}
+      <p class="entry-lead">${renderTextWithLinks(s.lead)}${s.more ? ' <button class="read-more-btn" type="button">もっと読む</button>' : ''}</p>
+      ${s.more ? `<p class="entry-more" hidden>${renderTextWithLinks(s.more)}</p>` : ''}
     </div>
   `).join('');
 }
@@ -117,8 +125,9 @@ function renderEntry(entry) {
       ${entry.link && !entry.embed ? `<a class="entry-link-url" href="${escapeHtml(entry.link)}" target="_blank" rel="noopener">↗ ${escapeHtml(entry.linkLabel || entry.link)}</a>` : ''}
       ${entry.image ? `<img class="entry-image" src="${escapeHtml(entry.image)}" alt="${escapeHtml(entry.title)}" loading="lazy">` : ''}
       ${entry.images ? `<div class="entry-image-row">${entry.images.map(src => `<img src="${escapeHtml(src)}" alt="${escapeHtml(entry.title)}" loading="lazy">`).join('')}</div>` : ''}
-      ${entry.sections ? renderSections(entry.sections) : (entry.body ? `<p class="entry-body">${escapeHtml(entry.body)}</p>` : '')}
+      ${entry.sections ? renderSections(entry.sections) : (entry.body ? `<p class="entry-body">${renderTextWithLinks(entry.body)}</p>` : '')}
       ${entry.embed ? `<div class="entry-embed">${entry.embed}</div>` : ''}
+      ${entry.afterEmbed ? `<p class="entry-after-embed">${renderTextWithLinks(entry.afterEmbed)}</p>` : ''}
       ${entry.rotator ? `<div class="entry-rotator" data-rotator="${escapeHtml(entry.rotator)}"><span class="rotator-text"></span></div>` : ''}
     </article>
   `;
@@ -135,7 +144,7 @@ document.addEventListener('click', (e) => {
 
 // ---- Rotators: same order+fade cycle as the hero title, embedded in a feed entry ----
 let rotatorData = {};
-let rotatorIntervals = [];
+let rotatorCancels = [];
 
 async function loadRotatorData(name) {
   if (rotatorData[name]) return rotatorData[name];
@@ -149,8 +158,8 @@ async function loadRotatorData(name) {
 }
 
 function stopRotators() {
-  rotatorIntervals.forEach(id => clearInterval(id));
-  rotatorIntervals = [];
+  rotatorCancels.forEach(cancel => cancel());
+  rotatorCancels = [];
 }
 
 function setRotatorText(textEl, text) {
@@ -161,6 +170,12 @@ function setRotatorText(textEl, text) {
   else if (lines >= 3) textEl.classList.add('lines-3plus');
 }
 
+// Longer entries (more lines) stay on screen a bit longer.
+function rotatorDelayFor(text) {
+  const lines = (text.match(/\n/g) || []).length + 1;
+  return 2000 + (lines - 1) * 700;
+}
+
 async function initRotators() {
   const els = document.querySelectorAll('.entry-rotator[data-rotator]');
   for (const el of els) {
@@ -168,17 +183,26 @@ async function initRotators() {
     if (!items.length) continue;
     const textEl = el.querySelector('.rotator-text');
     let idx = 0;
+    let stopped = false;
+    let timeoutId;
     setRotatorText(textEl, items[idx]);
 
-    const id = setInterval(() => {
-      textEl.classList.add('is-transitioning');
-      setTimeout(() => {
-        idx = (idx + 1) % items.length;
-        setRotatorText(textEl, items[idx]);
-        textEl.classList.remove('is-transitioning');
-      }, 300);
-    }, 2000);
-    rotatorIntervals.push(id);
+    function scheduleNext() {
+      timeoutId = setTimeout(() => {
+        if (stopped) return;
+        textEl.classList.add('is-transitioning');
+        timeoutId = setTimeout(() => {
+          if (stopped) return;
+          idx = (idx + 1) % items.length;
+          setRotatorText(textEl, items[idx]);
+          textEl.classList.remove('is-transitioning');
+          scheduleNext();
+        }, 300);
+      }, rotatorDelayFor(items[idx]));
+    }
+    scheduleNext();
+
+    rotatorCancels.push(() => { stopped = true; clearTimeout(timeoutId); });
   }
 }
 

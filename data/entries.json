@@ -10,8 +10,9 @@
     "date": "2026-07-23",
     "tags": [".audio"],
     "title": "温泉音楽集",
-    "body": "温泉っぽい曲あつめてる。あったら教えて。",
-    "embed": "<iframe data-testid=\"embed-iframe\" style=\"border-radius:12px\" src=\"https://open.spotify.com/embed/playlist/3RaeY6H9i2aQqOGnCfXYLb?utm_source=generator&theme=0\" width=\"100%\" height=\"152\" frameBorder=\"0\" allowfullscreen loading=\"lazy\"></iframe>"
+    "body": "温泉っぽい曲あつめてる。あったら教えてほしい ☞ [投稿](https://forms.gle/tRfJgfEQicBDCUx79)",
+    "embed": "<iframe data-testid=\"embed-iframe\" style=\"border-radius:12px\" src=\"https://open.spotify.com/embed/playlist/3RaeY6H9i2aQqOGnCfXYLb?utm_source=generator&theme=0\" width=\"100%\" height=\"152\" frameBorder=\"0\" allowfullscreen loading=\"lazy\"></iframe>",
+    "afterEmbed": "[praylist for apple music](https://otaotaotao.github.io/UniversalPlaylist/sample.html)"
   },
   {
     "date": "2024-01-01",
