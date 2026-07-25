@@ -19,6 +19,7 @@
     "pinned": true,
     "tags": [".text"],
     "title": "回文集",
+    "linkLabel": "全文☞ー声のエコー",
     "link": "http://simp.ly/p/8bBfsK",
     "rotator": "palindromes"
   },
@@ -27,6 +28,7 @@
     "tags": [".visual"],
     "title": "もの想うパンダ",
     "body": "LINEスタンプ、がんばってつくったな",
+    "linkLabel": "買わないでね☞販売ページ",
     "link": "https://store.line.me/stickershop/product/1142161/ja",
     "images": [
       "assets/gallery/panda-sheet-1.jpg",
@@ -41,8 +43,7 @@
     "linkLabel": "praylist@github",
     "link": "https://github.com/otaotaotao/UniversalPlaylist/blob/main/uniplay_spec_jp.md",
     "sections": [
-      { "lead": "ポストカードや個人ラジオみたいな、プレイリスト共有ツール。プラットフォームに囲い込まれない。", "more": "ひとことコメントやレイアウトもできる（ようになるといい）" },
-      { "lead": "今はexportifyを使ったspotify→appleの試作品。" }
+      { "lead": "ポストカードや個人ラジオみたいな、プレイリスト共有ツール。", "more": "プラットフォームに囲い込まれない。\nひとことコメントやレイアウトもできる（ようになるといい）\n今はexportifyを使ったspotify→appleの試作品。" }
     ]
   },
   {
