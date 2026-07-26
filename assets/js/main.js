@@ -65,7 +65,7 @@ function startTitleCycle() {
       setTitle(titlePool[titleIndex]);
       titleEl.classList.remove('is-transitioning');
     }, 300);
-  }, 2000);
+  }, 3200);
 }
 
 // ---- Season / year grouping ----
@@ -173,7 +173,7 @@ function setRotatorText(textEl, text) {
 // Longer entries (more lines) stay on screen a bit longer.
 function rotatorDelayFor(text) {
   const lines = (text.match(/\n/g) || []).length + 1;
-  return 2000 + (lines - 1) * 700;
+  return 3200 + (lines - 1) * 800;
 }
 
 async function initRotators() {
