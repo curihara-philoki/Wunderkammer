@@ -22,6 +22,8 @@
   },
   ".seed": {
     "desc": "企画書[かもしれない]。種、発酵酛、構想、open-source framework protocol、好きにつかってくれ。なんか種まいてってくれ。",
-    "links": []
+    "links": [
+      { "label": "投稿", "url": "https://forms.gle/tRfJgfEQicBDCUx79" }
+    ]
   }
 }

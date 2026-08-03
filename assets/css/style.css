@@ -92,7 +92,7 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 600; margin: 0; }
 .hero-desc {
   color: var(--gold-soft);
   font-size: 0.9rem;
-  margin: 0.75rem 0 0;
+  margin: 0.25rem 0 0;
   min-height: 1.2em;
 }
 
@@ -291,10 +291,18 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 600; margin: 0; }
 .entry-embed iframe { max-width: 100%; }
 
 .entry-after-embed {
-  color: var(--ink-dim);
-  font-size: 0.9rem;
-  margin: 0.6rem 0 0;
+  margin: 0.75rem 0 0;
 }
+
+.entry-after-embed a {
+  display: inline-block;
+  border: 1px solid var(--gold-soft);
+  border-radius: 999px;
+  padding: 0.4rem 1.1rem;
+  font-size: 0.85rem;
+  color: var(--gold);
+}
+.entry-after-embed a:hover { background: var(--gold-soft); color: var(--bg); text-decoration: none; }
 
 .entry-rotator {
   margin-top: 1rem;
