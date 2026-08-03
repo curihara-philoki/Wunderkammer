@@ -122,10 +122,10 @@ function renderEntry(entry) {
         ${tagHtml}
       </div>
       <h3 class="entry-title">${titleHtml}</h3>
-      ${entry.link && !entry.embed ? `<a class="entry-link-url" href="${escapeHtml(entry.link)}" target="_blank" rel="noopener">↗ ${escapeHtml(entry.linkLabel || entry.link)}</a>` : ''}
+      ${entry.link && !entry.embed ? `<p class="entry-link-url">${entry.linkPrefix ? escapeHtml(entry.linkPrefix) + ' ' : '↗ '}<a href="${escapeHtml(entry.link)}" target="_blank" rel="noopener">${escapeHtml(entry.linkLabel || entry.link)}</a></p>` : ''}
+      ${entry.sections ? renderSections(entry.sections) : (entry.body ? `<p class="entry-body">${renderTextWithLinks(entry.body)}</p>` : '')}
       ${entry.image ? `<img class="entry-image" src="${escapeHtml(entry.image)}" alt="${escapeHtml(entry.title)}" loading="lazy">` : ''}
       ${entry.images ? `<div class="entry-image-row">${entry.images.map(src => `<img src="${escapeHtml(src)}" alt="${escapeHtml(entry.title)}" loading="lazy">`).join('')}</div>` : ''}
-      ${entry.sections ? renderSections(entry.sections) : (entry.body ? `<p class="entry-body">${renderTextWithLinks(entry.body)}</p>` : '')}
       ${entry.embed ? `<div class="entry-embed">${entry.embed}</div>` : ''}
       ${entry.afterEmbed ? `<p class="entry-after-embed">${renderTextWithLinks(entry.afterEmbed)}</p>` : ''}
       ${entry.rotator ? `<div class="entry-rotator" data-rotator="${escapeHtml(entry.rotator)}"><span class="rotator-text"></span></div>` : ''}
@@ -162,7 +162,14 @@ function stopRotators() {
   rotatorCancels = [];
 }
 
-function setRotatorText(textEl, text) {
+// Rotator items are either a plain string, or { text, fast } for a quick-cut
+// group of related lines (e.g. a 3-line palindrome split into 3 beats).
+function rotatorTextOf(item) {
+  return typeof item === 'string' ? item : item.text;
+}
+
+function setRotatorText(textEl, item) {
+  const text = rotatorTextOf(item);
   textEl.textContent = text;
   const lines = (text.match(/\n/g) || []).length + 1;
   textEl.classList.remove('lines-2', 'lines-3plus');
@@ -170,9 +177,11 @@ function setRotatorText(textEl, text) {
   else if (lines >= 3) textEl.classList.add('lines-3plus');
 }
 
-// Longer entries (more lines) stay on screen a bit longer.
-function rotatorDelayFor(text) {
-  const lines = (text.match(/\n/g) || []).length + 1;
+// Longer entries (more lines) stay on screen a bit longer; "fast" items
+// (part of a related group) cut to the next one quickly.
+function rotatorDelayFor(item) {
+  if (typeof item === 'object' && item.fast) return 1200;
+  const lines = (rotatorTextOf(item).match(/\n/g) || []).length + 1;
   return 3200 + (lines - 1) * 800;
 }
 
