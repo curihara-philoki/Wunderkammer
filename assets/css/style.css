@@ -314,7 +314,14 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 600; margin: 0; }
   padding: 1rem;
   background: var(--bg-alt);
   border-radius: 6px;
+  border: 1px solid transparent;
 }
+
+a.entry-rotator {
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
 
 .rotator-text {
   font-family: var(--serif);
@@ -399,10 +406,89 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 600; margin: 0; }
   border-top: 1px solid var(--line);
 }
 
+/* Full palindrome page (text.html) */
+.text-page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 3rem;
+  text-align: center;
+}
+
+.text-page-title {
+  font-family: var(--title-font);
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  color: var(--ink);
+  margin-top: 0.25rem;
+}
+
+.text-page-note {
+  color: var(--ink-dim);
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+.text-list {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: left;
+}
+
+.text-entry {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 1.1rem 1.25rem;
+}
+
+.text-entry-body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--title-font);
+  font-size: 1.15rem;
+  line-height: 2;
+}
+
+.text-entry-body ruby rt {
+  color: var(--gold-soft);
+  font-family: var(--body-font);
+  font-size: 0.55em;
+}
+
+.text-pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: var(--ink-dim);
+}
+
+.text-pager button {
+  background: none;
+  border: 1px solid var(--gold-soft);
+  border-radius: 999px;
+  color: var(--gold);
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.text-pager button:hover:not(:disabled) { background: var(--gold-soft); color: var(--bg); }
+.text-pager button:disabled { opacity: 0.3; cursor: default; }
+
+.text-submit {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--line);
+}
+
 @media (max-width: 680px) {
   .hero { padding: 2.5rem 1.25rem 0.25rem; }
   .icon-bar { padding: 1rem 1.25rem 0; }
   .feed-intro { padding: 0.25rem 1.25rem 0; }
   .feed { padding: 2rem 1.25rem 3.5rem; }
   .room { padding: 3.5rem 1.25rem; }
+  .text-page { padding: 2rem 1.25rem 2.5rem; }
 }

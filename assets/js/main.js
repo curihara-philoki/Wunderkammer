@@ -65,7 +65,7 @@ function startTitleCycle() {
       setTitle(titlePool[titleIndex]);
       titleEl.classList.remove('is-transitioning');
     }, 300);
-  }, 3200);
+  }, 2400);
 }
 
 // ---- Season / year grouping ----
@@ -128,7 +128,11 @@ function renderEntry(entry) {
       ${entry.images ? `<div class="entry-image-row">${entry.images.map(src => `<img src="${escapeHtml(src)}" alt="${escapeHtml(entry.title)}" loading="lazy">`).join('')}</div>` : ''}
       ${entry.embed ? `<div class="entry-embed">${entry.embed}</div>` : ''}
       ${entry.afterEmbed ? `<p class="entry-after-embed">${renderTextWithLinks(entry.afterEmbed)}</p>` : ''}
-      ${entry.rotator ? `<div class="entry-rotator" data-rotator="${escapeHtml(entry.rotator)}"><span class="rotator-text"></span></div>` : ''}
+      ${entry.rotator ? (
+        entry.rotatorLinked && entry.link
+          ? `<a class="entry-rotator" href="${escapeHtml(entry.link)}" target="_blank" rel="noopener" data-rotator="${escapeHtml(entry.rotator)}"><span class="rotator-text"></span></a>`
+          : `<div class="entry-rotator" data-rotator="${escapeHtml(entry.rotator)}"><span class="rotator-text"></span></div>`
+      ) : ''}
     </article>
   `;
 }

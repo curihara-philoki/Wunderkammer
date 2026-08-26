@@ -22,8 +22,9 @@
     "title": "回文集",
     "linkPrefix": "全文 ☞",
     "linkLabel": "ー声のエコー",
-    "link": "http://simp.ly/p/8bBfsK",
-    "rotator": "palindromes"
+    "link": "text.html",
+    "rotator": "palindromes",
+    "rotatorLinked": true
   },
   {
     "date": "2015-05-16",

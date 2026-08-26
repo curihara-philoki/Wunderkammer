@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>回文集 — curihara-philoki.com</title>
+<meta name="description" content="curihara philoki の回文集。全文。">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="icon-bar">
+  <a href="index.html" aria-label="top" title="top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M5 12l6-6M5 12l6 6"/></svg>
+  </a>
+</header>
+
+<section class="text-page">
+  <p class="eyebrow">回文集</p>
+  <h1 class="text-page-title">ー声のエコー</h1>
+  <p class="text-page-note">下に投稿もできます。</p>
+
+  <div id="palindromeList" class="text-list">
+    <p class="empty-state">読み込み中…</p>
+  </div>
+
+  <nav class="text-pager">
+    <button id="prevPage" type="button">← 前</button>
+    <span id="pageIndicator"></span>
+    <button id="nextPage" type="button">次 →</button>
+  </nav>
+
+  <div class="text-submit">
+    <p class="room-note">投稿はこちらから</p>
+    <a class="contact-btn" href="https://forms.gle/tRfJgfEQicBDCUx79" target="_blank" rel="noopener">投稿</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <p>CreativeCommons ⦿ <span id="year"></span> curihara philoki. All Rights Released<br><a href="index.html">top へ戻る</a></p>
+</footer>
+
+<script src="assets/js/text.js"></script>
+</body>
+</html>
