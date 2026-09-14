@@ -448,6 +448,10 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
   line-height: 1.45;
 }
 
+.text-entry-body.is-small {
+  font-size: 0.75em;
+}
+
 .text-entry-body ruby rt {
   color: var(--gold-soft);
   font-family: var(--body-font);
@@ -460,6 +464,14 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
   font-family: var(--body-font);
   font-size: 0.7rem;
   margin-top: 0.15rem;
+}
+
+.text-entry-credit {
+  display: inline-block;
+  color: var(--gold-soft);
+  font-family: var(--body-font);
+  font-size: 0.75rem;
+  margin-top: 0.3rem;
 }
 
 .text-pager {
@@ -488,6 +500,14 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
   margin-top: 3rem;
   padding-top: 2rem;
   border-top: 1px solid var(--line);
+}
+
+.text-submitted {
+  margin-top: 2.5rem;
+}
+
+.text-submitted .text-list {
+  margin-top: 1rem;
 }
 
 @media (max-width: 680px) {
