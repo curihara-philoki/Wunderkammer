@@ -419,6 +419,14 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
   margin-top: 1rem;
 }
 
+.text-sort {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+}
+
 .text-list {
   margin-top: 2rem;
   display: flex;
@@ -451,6 +459,21 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
 .text-entry-body.is-small {
   font-size: 0.75em;
 }
+
+.vote-btn {
+  display: block;
+  margin-top: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--ink-dim);
+  font-family: var(--body-font);
+  font-size: 0.78rem;
+  cursor: pointer;
+  padding: 0;
+  opacity: 0.7;
+}
+.vote-btn:hover:not(:disabled) { color: var(--gold); opacity: 1; }
+.vote-btn:disabled { color: var(--gold-soft); cursor: default; opacity: 1; }
 
 .text-entry-body ruby rt {
   color: var(--gold-soft);
