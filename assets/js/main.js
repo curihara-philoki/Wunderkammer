@@ -224,7 +224,7 @@ function renderFeed(filterTag) {
   const list = document.getElementById('feedList');
   const isAll = !filterTag || filterTag === 'all';
   const filtered = isAll
-    ? allEntries.filter(e => !(e.tags || []).includes('.seed'))
+    ? allEntries.filter(e => !(e.tags || []).includes('.seed') && !e.hideFromAll)
     : allEntries.filter(e => (e.tags || []).includes(filterTag));
 
   if (!filtered.length) {

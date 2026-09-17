@@ -18,7 +18,10 @@
   },
   ".text": {
     "desc": "ことば遊び。ことばのことばかり。",
-    "links": []
+    "links": [
+      { "label": "詩の種、企画の素など", "url": "https://curiharaphiloki.substack.com" },
+      { "label": "期間限定日記", "url": "https://nothingisreal.hatenablog.com/" }
+    ]
   },
   ".seed": {
     "desc": "企画書[かもしれない]。種、発酵酛、構想、open-source framework protocol、好きにつかってくれ。なんか種まいてってくれ。",
