@@ -114,6 +114,12 @@ function renderEntry(entry) {
   const titleHtml = entry.link
     ? `<a href="${escapeHtml(entry.link)}" target="_blank" rel="noopener">${escapeHtml(entry.title)}</a>`
     : escapeHtml(entry.title);
+  // If a section has "more" text behind a もっと読む toggle, the image and
+  // afterEmbed button (if any) wait behind that same toggle too, instead of
+  // always showing.
+  const hasMore = (entry.sections || []).some(s => s.more);
+  const moreExtraClass = hasMore ? ' entry-more-extra' : '';
+  const moreExtraAttr = hasMore ? ' hidden' : '';
 
   return `
     <article class="entry" data-tags="${tags.join(' ')}">
@@ -122,13 +128,13 @@ function renderEntry(entry) {
         ${tagHtml}
       </div>
       <h3 class="entry-title">${titleHtml}</h3>
-      ${entry.link && !entry.embed ? `<p class="entry-link-url">${entry.linkPrefix ? escapeHtml(entry.linkPrefix) + ' ' : '↗ '}<a href="${escapeHtml(entry.link)}" target="_blank" rel="noopener">${escapeHtml(entry.linkLabel || entry.link)}</a></p>` : ''}
+      ${entry.link && !entry.embed && !entry.linkInBody ? `<p class="entry-link-url">${entry.linkPrefix ? escapeHtml(entry.linkPrefix) + ' ' : '↗ '}<a href="${escapeHtml(entry.link)}" target="_blank" rel="noopener">${escapeHtml(entry.linkLabel || entry.link)}</a></p>` : ''}
       ${entry.sections ? renderSections(entry.sections) : (entry.body ? `<p class="entry-body">${renderTextWithLinks(entry.body)}</p>` : '')}
-      ${entry.randomFrom ? `<p class="entry-random" data-random-from="${escapeHtml(entry.randomFrom)}"></p>` : ''}
-      ${entry.image ? `<img class="entry-image" src="${escapeHtml(entry.image)}" alt="${escapeHtml(entry.title)}" loading="lazy">` : ''}
+      ${entry.randomFrom ? `<div class="entry-random" data-random-from="${escapeHtml(entry.randomFrom)}"></div>` : ''}
+      ${entry.image ? `<img class="entry-image${moreExtraClass}"${moreExtraAttr} src="${escapeHtml(entry.image)}" alt="${escapeHtml(entry.title)}" loading="lazy">` : ''}
       ${entry.images ? `<div class="entry-image-row">${entry.images.map(src => `<img src="${escapeHtml(src)}" alt="${escapeHtml(entry.title)}" loading="lazy">`).join('')}</div>` : ''}
       ${entry.embed ? `<div class="entry-embed">${entry.embed}</div>` : ''}
-      ${entry.afterEmbed ? `<p class="entry-after-embed">${renderTextWithLinks(entry.afterEmbed)}</p>` : ''}
+      ${entry.afterEmbed ? `<p class="entry-after-embed${moreExtraClass}"${moreExtraAttr}>${renderTextWithLinks(entry.afterEmbed)}</p>` : ''}
       ${entry.rotator ? (
         entry.rotatorLinked && entry.link
           ? `<a class="entry-rotator" href="${escapeHtml(entry.link)}" target="_blank" rel="noopener" data-rotator="${escapeHtml(entry.rotator)}"><span class="rotator-text"></span></a>`
@@ -141,9 +147,11 @@ function renderEntry(entry) {
 document.addEventListener('click', (e) => {
   const btn = e.target.closest('.read-more-btn');
   if (!btn) return;
+  const article = btn.closest('.entry');
   const more = btn.closest('.entry-section').querySelector('.entry-more');
   const willShow = more.hidden;
   more.hidden = !willShow;
+  article.querySelectorAll('.entry-more-extra').forEach(el => { el.hidden = !willShow; });
   btn.textContent = willShow ? '閉じる' : 'もっと読む';
 });
 
@@ -234,7 +242,8 @@ async function initRandomPicks() {
       const pool = open.length ? open : items;
       if (!pool.length) continue;
       const pick = pool[Math.floor(Math.random() * pool.length)];
-      el.textContent = pick.title || `${pick.file}（仮）`;
+      el.innerHTML = ambientTrackInner(pick);
+      ambientBindSuggestForms(el);
     } catch (e) { /* leave blank */ }
   }
 }

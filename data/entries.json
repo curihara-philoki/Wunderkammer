@@ -10,9 +10,8 @@
     "date": "2026-09-19",
     "tags": [".audio"],
     "title": "exambient（仮）",
-    "body": "自分の名前の漢字一文字をいれてください。",
-    "linkPrefix": "曲を聴く ☞",
-    "linkLabel": "名付け遊び",
+    "body": "自分の名前の漢字一文字をいれてください ☞ [名付け遊び](ambient.html)",
+    "linkInBody": true,
     "link": "ambient.html",
     "randomFrom": "data/ambient-tracks.json"
   },
@@ -40,9 +39,9 @@
     "date": "2026-09-15",
     "tags": [".text"],
     "title": "詩の種「企画の種を考えてもらうための企画の種」",
-    "linkLabel": "Substackで読む",
     "link": "https://curiharaphiloki.substack.com/p/e25",
-    "body": "（　）と〈　〉による [　　] の支援も目論む場づくり："
+    "linkInBody": true,
+    "body": "（　）と〈　〉による [　　] の支援も目論む場づくり： [Substackで読む](https://curiharaphiloki.substack.com/p/e25)"
   },
   {
     "date": "2026-08-23",
