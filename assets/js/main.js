@@ -124,6 +124,7 @@ function renderEntry(entry) {
       <h3 class="entry-title">${titleHtml}</h3>
       ${entry.link && !entry.embed ? `<p class="entry-link-url">${entry.linkPrefix ? escapeHtml(entry.linkPrefix) + ' ' : '↗ '}<a href="${escapeHtml(entry.link)}" target="_blank" rel="noopener">${escapeHtml(entry.linkLabel || entry.link)}</a></p>` : ''}
       ${entry.sections ? renderSections(entry.sections) : (entry.body ? `<p class="entry-body">${renderTextWithLinks(entry.body)}</p>` : '')}
+      ${entry.randomFrom ? `<p class="entry-random" data-random-from="${escapeHtml(entry.randomFrom)}"></p>` : ''}
       ${entry.image ? `<img class="entry-image" src="${escapeHtml(entry.image)}" alt="${escapeHtml(entry.title)}" loading="lazy">` : ''}
       ${entry.images ? `<div class="entry-image-row">${entry.images.map(src => `<img src="${escapeHtml(src)}" alt="${escapeHtml(entry.title)}" loading="lazy">`).join('')}</div>` : ''}
       ${entry.embed ? `<div class="entry-embed">${entry.embed}</div>` : ''}
@@ -219,6 +220,25 @@ async function initRotators() {
   }
 }
 
+// One random item from a JSON list (e.g. data/ambient-tracks.json),
+// picked fresh on each page load — not a cycling rotator, just a teaser.
+// Items that already have a "title" (decided) are skipped, since the
+// point is to tease the still-unnamed ones and invite a suggestion.
+async function initRandomPicks() {
+  const els = document.querySelectorAll('.entry-random[data-random-from]');
+  for (const el of els) {
+    try {
+      const res = await fetch(el.dataset.randomFrom);
+      const items = await res.json();
+      const open = items.filter(item => !item.title);
+      const pool = open.length ? open : items;
+      if (!pool.length) continue;
+      const pick = pool[Math.floor(Math.random() * pool.length)];
+      el.textContent = pick.title || `${pick.file}（仮）`;
+    } catch (e) { /* leave blank */ }
+  }
+}
+
 function renderFeed(filterTag) {
   stopRotators();
   const list = document.getElementById('feedList');
@@ -252,6 +272,7 @@ function renderFeed(filterTag) {
   }
   list.innerHTML = html;
   initRotators();
+  initRandomPicks();
 }
 
 let tagDescriptions = {};

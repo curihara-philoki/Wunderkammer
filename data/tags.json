@@ -2,8 +2,8 @@
   ".audio": {
     "desc": "断片がいっぱいある。ミキシングしてほしい。素敵な声あつめたい。",
     "links": [
-      { "label": "Bandcamp", "url": "https://philoki.bandcamp.com" },
-      { "label": "SoundCloud", "url": "https://soundcloud.com/rokihi" }
+      { "label": "アルバム", "url": "https://philoki.bandcamp.com" },
+      { "label": "デモ・断片", "url": "https://soundcloud.com/rokihi" }
     ]
   },
   ".visual": {

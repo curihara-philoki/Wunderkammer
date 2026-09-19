@@ -342,6 +342,15 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
   margin-top: 0.75rem;
 }
 
+.entry-random {
+  color: var(--gold-soft);
+  font-family: var(--title-font);
+  font-style: italic;
+  font-size: 0.95rem;
+  margin: 0.6rem 0 0;
+}
+.entry-random:empty { display: none; }
+
 .empty-state {
   color: var(--ink-dim);
   font-style: italic;
@@ -431,7 +440,7 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
   margin-top: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
+  gap: 0.6rem;
   text-align: left;
 }
 
@@ -462,7 +471,7 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
 
 .vote-btn {
   display: block;
-  margin-top: 0.5rem;
+  margin-top: 0.2rem;
   background: none;
   border: none;
   color: var(--ink-dim);
@@ -532,6 +541,66 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
 .text-submitted .text-list {
   margin-top: 1rem;
 }
+
+/* Ambient track list (ambient.html) */
+.ambient-list {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  text-align: left;
+}
+
+.ambient-track {
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--line);
+}
+.ambient-track:last-child { border-bottom: none; }
+
+.ambient-title {
+  font-family: var(--title-font);
+  font-size: 1.15rem;
+  color: var(--ink);
+  margin: 0 0 0.6rem;
+}
+
+.ambient-track audio {
+  width: 100%;
+  color-scheme: dark;
+}
+
+.ambient-suggest {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+
+.ambient-input {
+  flex: 1;
+  min-width: 0;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  color: var(--ink);
+  font-family: var(--body-font);
+  font-size: 0.85rem;
+}
+.ambient-input::placeholder { color: var(--ink-dim); }
+.ambient-input:focus { outline: none; border-color: var(--gold-soft); }
+
+.ambient-suggest button {
+  background: none;
+  border: 1px solid var(--gold-soft);
+  border-radius: 999px;
+  color: var(--gold);
+  padding: 0.4rem 1.1rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.ambient-suggest button:hover:not(:disabled) { background: var(--gold-soft); color: var(--bg); }
+.ambient-suggest button:disabled { opacity: 0.6; cursor: default; }
 
 @media (max-width: 680px) {
   .hero { padding: 2.5rem 1.25rem 0.25rem; }

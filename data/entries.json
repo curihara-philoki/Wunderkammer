@@ -7,6 +7,16 @@
     "embed": "<iframe style=\"border: 0; width: 100%; max-width: 400px; height: 472px;\" src=\"https://bandcamp.com/EmbeddedPlayer/album=2736708630/size=large/bgcol=333333/linkcol=0f91ff/artwork=small/transparent=true/\" seamless><a href=\"https://philoki.bandcamp.com/album/42fragments24-tokyo-tribal\">42fragments'24 [tokyo-tribal] by philoki</a></iframe>"
   },
   {
+    "date": "2026-09-19",
+    "tags": [".audio"],
+    "title": "exambient（仮）",
+    "body": "自分の名前の漢字一文字をいれてください。",
+    "linkPrefix": "曲を聴く ☞",
+    "linkLabel": "名付け遊び",
+    "link": "ambient.html",
+    "randomFrom": "data/ambient-tracks.json"
+  },
+  {
     "date": "2026-07-23",
     "tags": [".audio"],
     "title": "温泉音楽集",
@@ -25,6 +35,14 @@
     "link": "text.html",
     "rotator": "palindromes",
     "rotatorLinked": true
+  },
+  {
+    "date": "2026-09-15",
+    "tags": [".text"],
+    "title": "詩の種「企画の種を考えてもらうための企画の種」",
+    "linkLabel": "Substackで読む",
+    "link": "https://curiharaphiloki.substack.com/p/e25",
+    "body": "（　）と〈　〉による [　　] の支援も目論む場づくり："
   },
   {
     "date": "2026-08-23",
@@ -57,7 +75,8 @@
     "link": "https://github.com/otaotaotao/UniversalPlaylist/blob/main/uniplay_spec_jp.md",
     "sections": [
       { "lead": "ポストカードや個人ラジオみたいな、プレイリスト共有ツール。", "more": "プラットフォームに囲い込まれない。\nひとことコメントやレイアウトもできる（ようになるといい）\n今はexportifyを使ったspotify→appleの試作品。" }
-    ]
+    ],
+    "image": "assets/gallery/praylist-onsen.jpg"
   },
   {
     "date": "2026-07-23",
@@ -67,7 +86,8 @@
     "link": "https://github.com/otaotaotao/music.txt/blob/main/README.ja.md",
     "sections": [
       { "lead": "ブログ記事に音楽を埋め込むためのツール。", "more": "本文を貼り付けて、曲を鳴らしたい場所に[[URL]]と書くだけで、ブログのHTML編集画面にそのまま貼り付けられるHTMLが生成される。コードを書く必要はない。" }
-    ]
+    ],
+    "afterEmbed": "[ジェネレーターを使う](https://otaotaotao.github.io/music.txt/generator.html)"
   },
   {
     "date": "2026-07-25",
