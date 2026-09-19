@@ -349,12 +349,6 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
   margin-top: 0.75rem;
 }
 
-.entry-random {
-  margin: 0.9rem 0 0;
-}
-.entry-random:empty { display: none; }
-.entry-random .ambient-title { font-size: 1rem; }
-
 .empty-state {
   color: var(--ink-dim);
   font-style: italic;
@@ -558,8 +552,34 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
 .ambient-track {
   padding-bottom: 2rem;
   border-bottom: 1px solid var(--line);
+  border-radius: 6px;
+  transition: background 0.3s ease;
 }
 .ambient-track:last-child { border-bottom: none; }
+
+.ambient-track.is-picked {
+  animation: ambient-flash 1.4s ease;
+}
+@keyframes ambient-flash {
+  0%, 100% { background: transparent; }
+  20% { background: color-mix(in srgb, var(--gold) 16%, transparent); }
+}
+
+.ambient-random {
+  margin-top: 2.5rem;
+  text-align: center;
+}
+
+.ambient-random button {
+  background: none;
+  border: 1px solid var(--gold-soft);
+  border-radius: 999px;
+  color: var(--gold);
+  padding: 0.6rem 1.4rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.ambient-random button:hover { background: var(--gold-soft); color: var(--bg); }
 
 .ambient-original {
   font-family: var(--mono);

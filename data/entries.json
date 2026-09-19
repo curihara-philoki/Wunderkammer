@@ -12,8 +12,7 @@
     "title": "exambient（仮）",
     "body": "自分の名前の漢字一文字をいれてください ☞ [名付け遊び](ambient.html)",
     "linkInBody": true,
-    "link": "ambient.html",
-    "randomFrom": "data/ambient-tracks.json"
+    "link": "ambient.html"
   },
   {
     "date": "2026-07-23",
