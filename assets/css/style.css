@@ -613,6 +613,94 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
 .ambient-suggest button:hover:not(:disabled) { background: var(--gold-soft); color: var(--bg); }
 .ambient-suggest button:disabled { opacity: 0.6; cursor: default; }
 
+/* Submission popup (assets/js/submit-modal.js) */
+.submit-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 8, 4, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  z-index: 100;
+}
+.submit-modal-overlay[hidden] { display: none; }
+
+.submit-modal {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 2rem 1.75rem 1.75rem;
+}
+
+.submit-modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.9rem;
+  background: none;
+  border: none;
+  color: var(--ink-dim);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+.submit-modal-close:hover { color: var(--gold); }
+
+.submit-modal-title {
+  font-family: var(--title-font);
+  font-size: 1.3rem;
+  color: var(--ink);
+  margin: 0 0 1.25rem;
+  text-align: center;
+}
+
+.submit-modal-textarea,
+.submit-modal-input {
+  display: block;
+  width: 100%;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-family: var(--body-font);
+  font-size: 0.9rem;
+  padding: 0.6rem 0.9rem;
+  box-sizing: border-box;
+}
+.submit-modal-textarea::placeholder,
+.submit-modal-input::placeholder { color: var(--ink-dim); }
+.submit-modal-textarea:focus,
+.submit-modal-input:focus { outline: none; border-color: var(--gold-soft); }
+
+.submit-modal-textarea {
+  border-radius: 10px;
+  min-height: 7rem;
+  resize: vertical;
+  margin-bottom: 0.75rem;
+}
+
+.submit-modal-input {
+  border-radius: 999px;
+  margin-bottom: 1.25rem;
+}
+
+.submit-modal-send {
+  display: block;
+  width: 100%;
+  background: none;
+  border: 1px solid var(--gold-soft);
+  border-radius: 999px;
+  color: var(--gold);
+  padding: 0.55rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.submit-modal-send:hover:not(:disabled) { background: var(--gold-soft); color: var(--bg); }
+.submit-modal-send:disabled { opacity: 0.7; cursor: default; }
+
 @media (max-width: 680px) {
   .hero { padding: 2.5rem 1.25rem 0.25rem; }
   .icon-bar { padding: 1rem 1.25rem 0; }
