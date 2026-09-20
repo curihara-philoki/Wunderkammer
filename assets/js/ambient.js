@@ -21,8 +21,7 @@ init();
 ambientBindSuggestForms(document.getElementById('ambientList'));
 
 // "どれにするか迷ったら" button: picks one still-undecided track, scrolls
-// to it, flashes it so it's clear which one got picked, and focuses its
-// suggestion input.
+// to it, flashes it, plays it, and focuses its suggestion input.
 document.getElementById('ambientRandomBtn').addEventListener('click', () => {
   const open = tracks.filter(t => !t.title);
   const pool = open.length ? open : tracks;
@@ -36,4 +35,7 @@ document.getElementById('ambientRandomBtn').addEventListener('click', () => {
   void el.offsetWidth; // restart the flash animation on repeat clicks
   el.classList.add('is-picked');
   el.querySelector('.ambient-input')?.focus({ preventScroll: true });
+
+  document.querySelectorAll('.ambient-track audio').forEach(a => { if (a !== el.querySelector('audio')) a.pause(); });
+  el.querySelector('audio')?.play().catch(() => {});
 });
