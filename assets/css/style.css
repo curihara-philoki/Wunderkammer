@@ -565,6 +565,110 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
   20% { background: color-mix(in srgb, var(--gold) 16%, transparent); }
 }
 
+/* Video x music combiner (av.html) */
+.av-stage {
+  margin-top: 2rem;
+  min-height: 4rem;
+}
+
+.av-video {
+  display: block;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+.av-video[hidden] { display: none; }
+
+.av-now-playing {
+  margin: 0.75rem 0 0;
+  color: var(--gold-soft);
+  font-family: var(--title-font);
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
+.av-bandcamp { margin-top: 0.75rem; }
+
+.av-columns {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  text-align: left;
+}
+
+.av-column-title {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--ink-dim);
+  letter-spacing: 0.08em;
+  margin: 0 0 0.75rem;
+}
+
+.av-video-list,
+.av-music-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.av-video-list button,
+.av-music-list button {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.5rem 0.7rem;
+  color: var(--ink);
+  font-family: var(--body-font);
+  font-size: 0.85rem;
+  text-align: left;
+  cursor: pointer;
+}
+.av-video-list button:hover,
+.av-music-list button:hover { border-color: var(--gold-soft); }
+.av-video-list button.active,
+.av-music-list button.active { border-color: var(--gold); }
+
+.av-video-list button img,
+.av-video-list button video {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.av-item-title {
+  font-family: var(--title-font);
+  font-size: 0.9rem;
+  color: var(--ink-dim);
+}
+.av-video-list button.active .av-item-title,
+.av-music-list button.active .av-item-title { color: var(--gold); }
+
+.av-music-author {
+  display: block;
+  font-family: var(--body-font);
+  color: var(--gold-soft);
+  opacity: 0.6;
+  font-size: 0.75rem;
+}
+.av-music-list button.active .av-music-author { color: var(--gold-soft); opacity: 1; }
+
+@media (max-width: 560px) {
+  .av-columns { gap: 0.6rem; }
+  .av-video-list button,
+  .av-music-list button { padding: 0.4rem 0.5rem; font-size: 0.78rem; gap: 0.4rem; }
+  .av-video-list button img,
+  .av-video-list button video { width: 32px; height: 32px; }
+  .av-music-author { font-size: 0.7rem; }
+}
+
 .ambient-random {
   margin-top: 2.5rem;
   text-align: center;

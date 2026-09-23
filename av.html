@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>組み合わせ — curihara-philoki.com</title>
+<meta name="description" content="curihara philoki の動画と音楽、毎回ちがう組み合わせ。">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="icon-bar">
+  <a href="index.html" aria-label="top" title="top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M5 12l6-6M5 12l6 6"/></svg>
+  </a>
+</header>
+
+<section class="text-page">
+  <p class="eyebrow">組み合わせ</p>
+  <h1 class="text-page-title">像音写映</h1>
+
+  <div class="av-stage">
+    <img id="avVideoImg" class="av-video" alt="" hidden>
+    <video id="avVideoMov" class="av-video" autoplay loop muted playsinline hidden></video>
+    <p id="avNowPlaying" class="av-now-playing"></p>
+    <div id="avBandcamp" class="av-bandcamp" hidden></div>
+  </div>
+
+  <div class="av-columns">
+    <div class="av-column">
+      <p class="av-column-title">像</p>
+      <div id="avVideoList" class="av-video-list"></div>
+    </div>
+    <div class="av-column">
+      <p class="av-column-title">音</p>
+      <div id="avMusicList" class="av-music-list"></div>
+    </div>
+  </div>
+
+  <div class="ambient-random">
+    <button id="avRandomBtn" type="button">ランダムで組み合わせる</button>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <p>CreativeCommons ⦿ <span id="year"></span> curihara philoki. All Rights Released<br><a href="index.html">top へ戻る</a></p>
+</footer>
+
+<script src="assets/js/av.js"></script>
+</body>
+</html>
