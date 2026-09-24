@@ -190,7 +190,7 @@ function selectVideo(index, { rerollMusic = true } = {}) {
   }
   document.querySelectorAll('.av-video-list button').forEach((btn, i) => btn.classList.toggle('active', i === index));
 
-  if (typeof playRandomTextPattern === 'function') playRandomTextPattern();
+  if (typeof playPoemById === 'function') playPoemById(v.poem);
 
   if (rerollMusic && musicTracks.length) {
     const others = musicTracks.map((_, i) => i).filter(i => i !== currentMusicIndex);

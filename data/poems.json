@@ -1,3 +1,6 @@
 [
-  { "text": "はいだからなつまできえてくたいようよまさかさいごまあいいあまごいさかさまようよいたくてえきでまつならかだいは", "pattern": "dualEdge" }
+  { "id": "hainara", "text": "はいだからなつまできえてくたいようよまさかさいごまあいいあまごいさかさまようよいたくてえきでまつならかだいは", "pattern": "dualEdge" },
+  { "id": "ryoko", "text": "旅行をしました。その国の通貨は、液体でした。報告は以上です。", "pattern": "typewriterBelow" },
+  { "id": "mutter", "text": "あ え お む ん わ あっ ああ えっ おっ むう うん わっ わあ ふむ ふ へえ ほう はっ ひい", "pattern": "cornerMutter" },
+  { "id": "wakaranai", "text": "なに＿ほんと＿△＿＊＊＊ない", "pattern": "randomBlanks" }
 ]

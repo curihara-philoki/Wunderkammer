@@ -1,5 +1,5 @@
 [
-  { "file": "bonobo_10mb_or_less.gif", "label": "bonobo" },
-  { "file": "nabe - SD 480p.mov", "label": "nabe" },
-  { "file": "monoscope - SD 480p.mov", "label": "monoscope" }
+  { "file": "bonobo_10mb_or_less.gif", "label": "bonobo", "poem": "hainara" },
+  { "file": "nabe - SD 480p.mov", "label": "nabe", "poem": "ryoko" },
+  { "file": "monoscope - SD 480p.mov", "label": "monoscope", "poem": "mutter" }
 ]

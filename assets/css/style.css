@@ -650,6 +650,48 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85), 0 0 3px rgba(0, 0, 0, 0.9);
 }
 
+/* 動画の下、タイプライター風に最大3文字だけ表示して古い文字から消える。
+   .av-blanks-char(下のrandomBlanksパターン)がposition: absoluteで
+   使うので、position: relativeと動画に合わせた幅を持たせている */
+.av-typewriter-below {
+  position: relative;
+  max-width: 480px;
+  margin: 0.75rem auto 0;
+  min-height: 1.6em;
+  font-family: "Shippori Mincho", var(--title-font);
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  color: #f6f1e4;
+  opacity: 0.85;
+  text-align: center;
+}
+.av-typewriter-below[hidden] { display: none; }
+.av-typewriter-below span { transition: opacity 0.5s ease; }
+
+/* 動画の下、右端から一文字ずつ現れては消える(rightStaircaseと同じ考え方) */
+.av-blanks-char {
+  position: absolute;
+  top: 0;
+  transition: opacity 0.25s ease;
+}
+
+/* 動画の下、左右の端に候補の台詞がランダムな間隔で出ては消える */
+.av-mutter-row {
+  display: flex;
+  justify-content: space-between;
+  max-width: 480px;
+  margin: 0.75rem auto 0;
+  min-height: 1.4em;
+  font-family: "Shippori Mincho", var(--title-font);
+  font-size: 1rem;
+  color: #f6f1e4;
+  pointer-events: none;
+}
+.av-mutter-row[hidden] { display: none; }
+.av-mutter { opacity: 0; transition: opacity 0.4s ease; }
+.av-mutter.show { opacity: 0.75; }
+.av-typewriter-below span.fade-out { opacity: 0; }
+
 .av-text-item { position: absolute; white-space: nowrap; }
 
 .av-text-mirror {
