@@ -190,6 +190,8 @@ function selectVideo(index, { rerollMusic = true } = {}) {
   }
   document.querySelectorAll('.av-video-list button').forEach((btn, i) => btn.classList.toggle('active', i === index));
 
+  if (typeof playRandomTextPattern === 'function') playRandomTextPattern();
+
   if (rerollMusic && musicTracks.length) {
     const others = musicTracks.map((_, i) => i).filter(i => i !== currentMusicIndex);
     const pool = others.length ? others : musicTracks.map((_, i) => i);
@@ -242,8 +244,13 @@ function selectMusic(index) {
 }
 
 function videoButtonHtml(v, i) {
+  // Video-file thumbnails are a plain placeholder, not a live frame — a
+  // <video> per thumbnail (even with no autoplay) still triggers its own
+  // range requests just to seek/preview, which piles up fast against a
+  // simple dev server once there's more than a couple. GIFs are a normal
+  // static-ish image load, so those still get a real thumbnail.
   const thumb = isVideoFile(v.file)
-    ? `<video src="${mediaSrc(v.file)}" autoplay loop muted playsinline></video>`
+    ? `<span class="av-video-placeholder" aria-hidden="true">▶</span>`
     : `<img src="${mediaSrc(v.file)}" alt="${escapeHtml(v.label)}" loading="lazy">`;
   return `<button type="button" data-index="${i}">${thumb}<span class="av-item-title">${escapeHtml(v.label)}</span></button>`;
 }

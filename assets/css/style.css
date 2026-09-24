@@ -571,15 +571,124 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
   min-height: 4rem;
 }
 
+.av-media-wrap {
+  position: relative;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.av-media {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+/* 縦に流れる電光掲示板 — 動画の外、左右の帯。.av-media-wrapに対して絶対配置
+   することで、tickerの縦に長い中身(white-space: nowrapで折り返させない)が
+   レイアウトの高さに影響しないようにし、常に動画の実際の高さぴったりに
+   top:0/bottom:0で揃う。枠なし、上下端はマスクでフェードイン/フェードアウト */
+.av-ticker-col {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1.7rem;
+  overflow: hidden;
+  writing-mode: vertical-rl;
+  font-family: "Shippori Mincho", var(--title-font);
+  color: #f6f1e4;
+  opacity: 0.65;
+  font-size: 0.85rem;
+  letter-spacing: 0.45em;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85), 0 0 3px rgba(0, 0, 0, 0.9);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 6%, black 94%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, black 6%, black 94%, transparent);
+}
+.av-ticker-col[hidden] { display: none; }
+.av-ticker-col-left { right: 100%; margin-right: 0.5rem; transform: scaleX(-1); }
+.av-ticker-col-right { left: 100%; margin-left: 0.5rem; }
+
+/* 表示が始まるたび(hidden解除のたび)、入ってくる側の端から現れる一回きりの演出 */
+.av-ticker-col-right { animation: av-ticker-reveal-bottom 0.9s ease-out; }
+.av-ticker-col-left { animation: av-ticker-reveal-top 0.9s ease-out; }
+@keyframes av-ticker-reveal-bottom {
+  from { clip-path: inset(100% 0 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes av-ticker-reveal-top {
+  from { clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+.av-ticker-track { display: inline-block; white-space: nowrap; }
+.av-ticker-track.av-ticker-down { animation-name: av-ticker-down; animation-timing-function: linear; animation-iteration-count: infinite; }
+.av-ticker-track.av-ticker-up { animation-name: av-ticker-up; animation-timing-function: linear; animation-iteration-count: infinite; }
+
+@keyframes av-ticker-down {
+  from { transform: translateY(-50%); }
+  to { transform: translateY(0%); }
+}
+@keyframes av-ticker-up {
+  from { transform: translateY(0%); }
+  to { transform: translateY(-50%); }
+}
+
 .av-video {
   display: block;
   width: 100%;
-  max-width: 480px;
-  margin: 0 auto;
-  border-radius: 8px;
-  border: 1px solid var(--line);
 }
 .av-video[hidden] { display: none; }
+
+.av-text-overlay {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  font-family: "Shippori Mincho", var(--title-font);
+  color: #f6f1e4;
+  opacity: 0.55;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85), 0 0 3px rgba(0, 0, 0, 0.9);
+}
+
+.av-text-item { position: absolute; white-space: nowrap; }
+
+.av-text-mirror {
+  top: 44%;
+  font-size: 1.4rem;
+  letter-spacing: 0.04em;
+}
+
+.av-text-vertical {
+  left: 8%;
+  right: 8%;
+  font-size: 1.4rem;
+  white-space: normal;
+  text-align: center;
+}
+
+.av-text-typewriter {
+  top: 42%;
+  left: 6%;
+  right: 6%;
+  font-family: var(--mono);
+  font-size: 1.1rem;
+  letter-spacing: 0.02em;
+  white-space: normal;
+}
+.av-text-typewriter span { transition: opacity 0.5s ease; }
+.av-text-typewriter span.fade-out { opacity: 0; }
+
+.av-text-scatter {
+  font-size: 1.3rem;
+  transform: scaleX(-1);
+  transition: opacity 0.6s ease;
+}
+
+.av-text-center {
+  font-size: 1.4rem;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.5s ease;
+}
 
 .av-now-playing {
   margin: 0.75rem 0 0;
@@ -635,12 +744,24 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
 .av-music-list button.active { border-color: var(--gold); }
 
 .av-video-list button img,
-.av-video-list button video {
+.av-video-list button video,
+.av-video-placeholder {
   width: 44px;
   height: 44px;
   object-fit: cover;
   border-radius: 4px;
   flex-shrink: 0;
+}
+
+.av-video-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--gold-soft);
+  font-size: 1rem;
+  box-sizing: border-box;
 }
 
 .av-item-title {
@@ -665,7 +786,8 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
   .av-video-list button,
   .av-music-list button { padding: 0.4rem 0.5rem; font-size: 0.78rem; gap: 0.4rem; }
   .av-video-list button img,
-  .av-video-list button video { width: 32px; height: 32px; }
+  .av-video-list button video,
+  .av-video-placeholder { width: 32px; height: 32px; font-size: 0.8rem; }
   .av-music-author { font-size: 0.7rem; }
 }
 
@@ -832,4 +954,5 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
   .feed { padding: 2rem 1.25rem 3.5rem; }
   .room { padding: 3.5rem 1.25rem; }
   .text-page { padding: 2rem 1.25rem 2.5rem; }
+  .av-media-wrap { max-width: calc(100% - 4.5rem); }
 }
