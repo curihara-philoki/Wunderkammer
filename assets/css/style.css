@@ -349,6 +349,104 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
   margin-top: 0.75rem;
 }
 
+/* av.html teaser in the home feed: a small "video × music" combo, rerolled
+   client-side from data/av-videos.json + data/av-music.json (labels/titles
+   only — never the actual media files, so this stays cheap on the feed) */
+.entry-av-preview {
+  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.9rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  transition: border-color 0.2s ease;
+}
+.entry-av-preview.is-linked { cursor: pointer; }
+.entry-av-preview.is-linked:hover { border-color: var(--gold-soft); }
+
+.av-preview-combo {
+  flex: 1;
+  font-family: var(--title-font);
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--gold-soft);
+}
+
+.av-preview-reroll {
+  flex: none;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  border: 1px solid var(--gold-soft);
+  background: none;
+  color: var(--gold-soft);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.av-preview-reroll:hover { color: var(--gold); border-color: var(--gold); }
+.av-preview-reroll.spin { transform: rotate(180deg); }
+
+/* 全エントリの下、気軽なひとこと投稿欄。打った行数ぶん自動で伸びる
+   (JSでscrollHeightに合わせて高さを更新)。送信は既存の共有フォーム
+   (submit-modal.jsのSUBMIT_FORM_ACTION等)と同じ、ポップアップ無しの版 */
+.entry-quick-reply {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 0.6rem 2rem 0;
+  border-top: 1px dashed var(--line);
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+/* Nested inside an .entry/.room (nowhere at the moment, but kept in case),
+   the page's own padding already applies — don't add it twice. */
+.entry .entry-quick-reply,
+.room .entry-quick-reply {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media (max-width: 680px) {
+  .entry-quick-reply { padding-left: 1.25rem; padding-right: 1.25rem; }
+}
+
+.quick-reply-textarea {
+  flex: 1;
+  resize: none;
+  overflow: hidden;
+  min-height: 1.6em;
+  max-height: 14em;
+  padding: 0.3rem 0;
+  background: none;
+  border: none;
+  border-bottom: 1px solid transparent;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  transition: border-color 0.2s ease;
+}
+.quick-reply-textarea::placeholder { color: var(--ink-dim); opacity: 0.7; }
+.quick-reply-textarea:focus { outline: none; border-bottom-color: var(--gold-soft); }
+
+.quick-reply-send {
+  flex: none;
+  background: none;
+  border: 1px solid var(--gold-soft);
+  border-radius: 999px;
+  padding: 0.25rem 0.8rem;
+  color: var(--gold-soft);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.quick-reply-send:hover { color: var(--gold); border-color: var(--gold); }
+.quick-reply-send:disabled { opacity: 0.5; cursor: default; }
+
 .empty-state {
   color: var(--ink-dim);
   font-style: italic;
@@ -571,23 +669,19 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
   min-height: 4rem;
 }
 
-.av-media-wrap {
+.av-media {
   position: relative;
   max-width: 480px;
   margin: 0 auto;
-}
-
-.av-media {
-  position: relative;
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid var(--line);
 }
 
-/* 縦に流れる電光掲示板 — 動画の外、左右の帯。.av-media-wrapに対して絶対配置
-   することで、tickerの縦に長い中身(white-space: nowrapで折り返させない)が
-   レイアウトの高さに影響しないようにし、常に動画の実際の高さぴったりに
-   top:0/bottom:0で揃う。枠なし、上下端はマスクでフェードイン/フェードアウト */
+/* 縦に流れる電光掲示板 — 動画に重ねて、左右の内側に。white-space: nowrapで
+   折り返させない縦に長い中身を.av-media自身(position: relative, overflow:
+   hidden)がtop:0/bottom:0で動画の高さぴったりに切り抜く。上下端はマスクで
+   フェードイン/フェードアウト */
 .av-ticker-col {
   position: absolute;
   top: 0;
@@ -597,7 +691,7 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
   writing-mode: vertical-rl;
   font-family: "Shippori Mincho", var(--title-font);
   color: #f6f1e4;
-  opacity: 0.65;
+  opacity: 0.75;
   font-size: 0.85rem;
   letter-spacing: 0.45em;
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85), 0 0 3px rgba(0, 0, 0, 0.9);
@@ -605,8 +699,8 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
   mask-image: linear-gradient(to bottom, transparent, black 6%, black 94%, transparent);
 }
 .av-ticker-col[hidden] { display: none; }
-.av-ticker-col-left { right: 100%; margin-right: 0.5rem; transform: scaleX(-1); }
-.av-ticker-col-right { left: 100%; margin-left: 0.5rem; }
+.av-ticker-col-left { left: 0; transform: scaleX(-1); }
+.av-ticker-col-right { right: 0; }
 
 /* 表示が始まるたび(hidden解除のたび)、入ってくる側の端から現れる一回きりの演出 */
 .av-ticker-col-right { animation: av-ticker-reveal-bottom 0.9s ease-out; }
@@ -650,13 +744,14 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85), 0 0 3px rgba(0, 0, 0, 0.9);
 }
 
-/* 動画の下、タイプライター風に最大3文字だけ表示して古い文字から消える。
-   .av-blanks-char(下のrandomBlanksパターン)がposition: absoluteで
-   使うので、position: relativeと動画に合わせた幅を持たせている */
+/* 動画に重ねて、下寄りにタイプライター風に最大3文字だけ表示して古い文字から
+   消える(typewriterBelowパターン)。.av-blanks-char(randomBlanksパターン)
+   もposition: absoluteでこの中に置くので、position: relativeにしてある */
 .av-typewriter-below {
-  position: relative;
-  max-width: 480px;
-  margin: 0.75rem auto 0;
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: 8%;
   min-height: 1.6em;
   font-family: "Shippori Mincho", var(--title-font);
   font-size: 1rem;
@@ -664,32 +759,36 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
   color: #f6f1e4;
   opacity: 0.85;
   text-align: center;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85), 0 0 3px rgba(0, 0, 0, 0.9);
 }
 .av-typewriter-below[hidden] { display: none; }
 .av-typewriter-below span { transition: opacity 0.5s ease; }
 
-/* 動画の下、右端から一文字ずつ現れては消える(rightStaircaseと同じ考え方) */
+/* 動画に重ねて、右端から一文字ずつ現れては消える(rightStaircaseと同じ考え方) */
 .av-blanks-char {
   position: absolute;
   top: 0;
   transition: opacity 0.25s ease;
 }
 
-/* 動画の下、左右の端に候補の台詞がランダムな間隔で出ては消える */
+/* 動画に重ねて、下寄りの左右に候補の台詞がランダムな間隔で出ては消える */
 .av-mutter-row {
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: 0.6rem;
   display: flex;
   justify-content: space-between;
-  max-width: 480px;
-  margin: 0.75rem auto 0;
   min-height: 1.4em;
   font-family: "Shippori Mincho", var(--title-font);
   font-size: 1rem;
   color: #f6f1e4;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85), 0 0 3px rgba(0, 0, 0, 0.9);
   pointer-events: none;
 }
 .av-mutter-row[hidden] { display: none; }
 .av-mutter { opacity: 0; transition: opacity 0.4s ease; }
-.av-mutter.show { opacity: 0.75; }
+.av-mutter.show { opacity: 0.85; }
 .av-typewriter-below span.fade-out { opacity: 0; }
 
 .av-text-item { position: absolute; white-space: nowrap; }
@@ -996,5 +1095,4 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
   .feed { padding: 2rem 1.25rem 3.5rem; }
   .room { padding: 3.5rem 1.25rem; }
   .text-page { padding: 2rem 1.25rem 2.5rem; }
-  .av-media-wrap { max-width: calc(100% - 4.5rem); }
 }

@@ -139,6 +139,9 @@ function renderEntry(entry) {
           ? `<a class="entry-rotator" href="${escapeHtml(entry.link)}" target="_blank" rel="noopener" data-rotator="${escapeHtml(entry.rotator)}"><span class="rotator-text"></span></a>`
           : `<div class="entry-rotator" data-rotator="${escapeHtml(entry.rotator)}"><span class="rotator-text"></span></div>`
       ) : ''}
+      ${entry.avPreview ? `<div class="entry-av-preview" data-av-preview data-href="${escapeHtml(entry.link || '')}"><span class="av-preview-combo"></span><button class="av-preview-reroll" type="button" aria-label="組み合わせを変える">⟳</button></div>` : ''}
+      ${entry.quickReply ? `<div class="entry-quick-reply"><textarea class="quick-reply-textarea" rows="1" placeholder="${escapeHtml(entry.quickReply)}"></textarea><button class="quick-reply-send" type="button">送る</button></div>` : ''}
+      ${entry.bodyAfter ? `<p class="entry-body">${renderTextWithLinks(entry.bodyAfter)}</p>` : ''}
     </article>
   `;
 }
@@ -227,6 +230,60 @@ async function initRotators() {
   }
 }
 
+// ---- av.html preview: a tiny, click-to-reroll taste of "video × music" for
+// the home feed. Only fetches the small JSON lists (labels/titles) — never
+// the actual video/audio files — so it stays cheap even though av.html
+// itself is heavier once you're on that page.
+let avVideos = null;
+let avMusic = null;
+
+async function loadAvPreviewData() {
+  if (avVideos && avMusic) return;
+  try {
+    const [vRes, mRes] = await Promise.all([fetch('data/av-videos.json'), fetch('data/av-music.json')]);
+    avVideos = await vRes.json();
+    avMusic = await mRes.json();
+  } catch (e) {
+    avVideos = [];
+    avMusic = [];
+  }
+}
+
+function randomAvCombo() {
+  const v = avVideos[Math.floor(Math.random() * avVideos.length)];
+  const m = avMusic[Math.floor(Math.random() * avMusic.length)];
+  return `${v.label} × ${m.title}`;
+}
+
+async function initAvPreviews() {
+  const els = document.querySelectorAll('.entry-av-preview[data-av-preview]');
+  if (!els.length) return;
+  await loadAvPreviewData();
+  if (!avVideos.length || !avMusic.length) return;
+  els.forEach(el => {
+    const comboEl = el.querySelector('.av-preview-combo');
+    const btn = el.querySelector('.av-preview-reroll');
+    comboEl.textContent = randomAvCombo();
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      comboEl.textContent = randomAvCombo();
+      btn.classList.add('spin');
+      setTimeout(() => btn.classList.remove('spin'), 300);
+    });
+    // The whole box is a link to av.html too — only the reroll button (which
+    // stops propagation above) opts out of that.
+    const href = el.dataset.href;
+    if (href) {
+      el.classList.add('is-linked');
+      el.addEventListener('click', () => { window.location.href = href; });
+    }
+  });
+}
+
+// Quick reply ("ひとこと〜") now lives in assets/js/quick-reply.js, shared
+// across every page's footer — it self-initializes on load, so nothing to
+// call here.
+
 function renderFeed(filterTag) {
   stopRotators();
   const list = document.getElementById('feedList');
@@ -260,6 +317,8 @@ function renderFeed(filterTag) {
   }
   list.innerHTML = html;
   initRotators();
+  initAvPreviews();
+  if (typeof initQuickReply === 'function') initQuickReply();
 }
 
 let tagDescriptions = {};
@@ -324,7 +383,19 @@ async function init() {
   await loadTagDescriptions();
   allEntries = local.filter(e => !e.hidden).sort((a, b) => new Date(b.date) - new Date(a.date));
   buildTagFilter();
-  renderFeed('all');
+
+  // ?tag=.seed (etc.) in the URL pre-selects that filter on load, so an
+  // entry (or an external link) can point straight at a tag's view instead
+  // of only "top" — used by the GitHuman entry to link into 種箱(.seed).
+  const initialTag = new URLSearchParams(location.search).get('tag') || 'all';
+  const bar = document.getElementById('tagFilter');
+  const initialBtn = bar.querySelector(`.tag-pill[data-tag="${CSS.escape(initialTag)}"]`);
+  if (initialBtn) {
+    bar.querySelectorAll('.tag-pill').forEach(b => b.classList.remove('active'));
+    initialBtn.classList.add('active');
+  }
+  renderFeed(initialTag);
+  updateTagDesc(initialTag);
 }
 
 init();
