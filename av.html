@@ -27,6 +27,9 @@
     <div class="av-media">
       <img id="avVideoImg" class="av-video" alt="" hidden>
       <video id="avVideoMov" class="av-video" autoplay loop muted playsinline hidden></video>
+      <div class="av-speed-control">
+        <input type="range" id="avSpeedSlider" min="0" max="1.2" step="0.05" value="0.6" aria-label="再生速度">
+      </div>
       <div id="avTextOverlay" class="av-text-overlay"></div>
       <div id="avTextLeft" class="av-ticker-col av-ticker-col-left" hidden></div>
       <div id="avTextRight" class="av-ticker-col av-ticker-col-right" hidden></div>

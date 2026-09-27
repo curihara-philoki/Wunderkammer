@@ -172,6 +172,15 @@ function mediaSrc(file) {
 // crossfades to a new (different, if there's a choice) random track at
 // the same time, unless a caller is about to set the music explicitly
 // right after (the random-combo button).
+// 再生速度スライダー(現在の速度=1として0〜1.2、既定0.6)。<video>の
+// playbackRateだけに効く — GIF(bonoboなど)は仕組み上速度調整できないので
+// スライダー自体はどの動画でも出しっぱなしだが、GIF表示中は見た目に変化なし。
+function applyPlaybackRate() {
+  const slider = document.getElementById('avSpeedSlider');
+  const mov = document.getElementById('avVideoMov');
+  mov.playbackRate = Number(slider.value);
+}
+
 function selectVideo(index, { rerollMusic = true } = {}) {
   const v = videos[index];
   const img = document.getElementById('avVideoImg');
@@ -181,6 +190,7 @@ function selectVideo(index, { rerollMusic = true } = {}) {
     img.removeAttribute('src');
     mov.src = mediaSrc(v.file);
     mov.hidden = false;
+    applyPlaybackRate();
   } else {
     mov.hidden = true;
     mov.removeAttribute('src');
@@ -301,3 +311,5 @@ document.getElementById('avRandomBtn').addEventListener('click', () => {
   selectVideo(Math.floor(Math.random() * videos.length), { rerollMusic: false });
   selectMusic(Math.floor(Math.random() * musicTracks.length));
 });
+
+document.getElementById('avSpeedSlider').addEventListener('input', applyPlaybackRate);

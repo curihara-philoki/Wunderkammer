@@ -111,8 +111,12 @@ function renderSections(sections) {
 function renderEntry(entry) {
   const tags = entry.tags || [];
   const tagHtml = tags.map(t => `<span class="tag-pill small">${escapeHtml(t)}</span>`).join('');
+  // Internal links (index.html?tag=..., av.html, etc.) navigate in the same
+  // tab; only genuinely external links open a new one.
+  const isInternal = entry.link && !/^https?:\/\//.test(entry.link);
+  const linkAttrs = isInternal ? '' : ' target="_blank" rel="noopener"';
   const titleHtml = entry.link
-    ? `<a href="${escapeHtml(entry.link)}" target="_blank" rel="noopener">${escapeHtml(entry.title)}</a>`
+    ? `<a href="${escapeHtml(entry.link)}"${linkAttrs}>${escapeHtml(entry.title)}</a>`
     : escapeHtml(entry.title);
   // If a section has "more" text behind a もっと読む toggle, the image and
   // afterEmbed button (if any) wait behind that same toggle too, instead of
@@ -121,14 +125,8 @@ function renderEntry(entry) {
   const moreExtraClass = hasMore ? ' entry-more-extra' : '';
   const moreExtraAttr = hasMore ? ' hidden' : '';
 
-  return `
-    <article class="entry" data-tags="${tags.join(' ')}">
-      <div class="entry-meta">
-        <time>${escapeHtml(entry.dateLabel || formatDate(entry.date))}</time>
-        ${tagHtml}
-      </div>
-      <h3 class="entry-title">${titleHtml}</h3>
-      ${entry.link && !entry.embed && !entry.linkInBody ? `<p class="entry-link-url">${entry.linkPrefix ? escapeHtml(entry.linkPrefix) + ' ' : '↗ '}<a href="${escapeHtml(entry.link)}" target="_blank" rel="noopener">${escapeHtml(entry.linkLabel || entry.link)}</a></p>` : ''}
+  const mainContent = `
+      ${entry.link && !entry.embed && !entry.linkInBody ? `<p class="entry-link-url">${entry.linkPrefix ? escapeHtml(entry.linkPrefix) + ' ' : '↗ '}<a href="${escapeHtml(entry.link)}"${linkAttrs}>${escapeHtml(entry.linkLabel || entry.link)}</a></p>` : ''}
       ${entry.sections ? renderSections(entry.sections) : (entry.body ? `<p class="entry-body">${renderTextWithLinks(entry.body)}</p>` : '')}
       ${entry.image ? `<img class="entry-image${moreExtraClass}"${moreExtraAttr} src="${escapeHtml(entry.image)}" alt="${escapeHtml(entry.title)}" loading="lazy">` : ''}
       ${entry.images ? `<div class="entry-image-row">${entry.images.map(src => `<img src="${escapeHtml(src)}" alt="${escapeHtml(entry.title)}" loading="lazy">`).join('')}</div>` : ''}
@@ -142,6 +140,26 @@ function renderEntry(entry) {
       ${entry.avPreview ? `<div class="entry-av-preview" data-av-preview data-href="${escapeHtml(entry.link || '')}"><span class="av-preview-combo"></span><button class="av-preview-reroll" type="button" aria-label="組み合わせを変える">⟳</button></div>` : ''}
       ${entry.quickReply ? `<div class="entry-quick-reply"><textarea class="quick-reply-textarea" rows="1" placeholder="${escapeHtml(entry.quickReply)}"></textarea><button class="quick-reply-send" type="button">送る</button></div>` : ''}
       ${entry.bodyAfter ? `<p class="entry-body">${renderTextWithLinks(entry.bodyAfter)}</p>` : ''}
+  `;
+
+  const embedHtml = entry.embedFrom
+    ? `<div class="entry-embed-page" data-embed-from="${escapeHtml(entry.embedFrom)}"><p class="empty-state">読み込み中…</p></div>`
+    : '';
+
+  // 埋め込みページを持つエントリ(GitHuman)だけ、手紙部分と全文部分を
+  // 別々の枠(.entry-box)に分ける。それ以外のエントリは今までどおりフラット。
+  const bodyHtml = entry.embedFrom
+    ? `<div class="entry-box">${mainContent}</div><div class="entry-box entry-box-embed">${embedHtml}</div>`
+    : mainContent + embedHtml;
+
+  return `
+    <article class="entry" data-tags="${tags.join(' ')}">
+      <div class="entry-meta">
+        <time>${escapeHtml(entry.dateLabel || formatDate(entry.date))}</time>
+        ${tagHtml}
+      </div>
+      <h3 class="entry-title">${titleHtml}</h3>
+      ${bodyHtml}
     </article>
   `;
 }
@@ -155,6 +173,31 @@ document.addEventListener('click', (e) => {
   more.hidden = !willShow;
   article.querySelectorAll('.entry-more-extra').forEach(el => { el.hidden = !willShow; });
   btn.textContent = willShow ? '閉じる' : 'もっと読む';
+});
+
+// トップの解説キャプション(.caption、静的HTML)専用の「さらに読む」— 上の
+// .read-more-btn はフィードの.entry/.entry-section前提なので使い回さず、
+// 別のボタンクラスに分けてある(同じセレクタで拾うと .closest('.entry') が
+// nullになって壊れる)。
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.caption-more-btn');
+  if (!btn) return;
+  const more = btn.parentElement.querySelector('.caption-more');
+  const willShow = more.hidden;
+  more.hidden = !willShow;
+  btn.textContent = willShow ? '閉じる' : 'さらに読む';
+});
+
+// tane.html(企画の種の全文)の各セクション。GitHubエントリに埋め込まれた
+// 分も含め、クリックで開閉するだけの単純な委譲ハンドラなので、
+// initEmbeddedPages()が後からコンテンツを差し込んでも配線し直す必要がない。
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.tane-accordion-toggle');
+  if (!btn) return;
+  const body = btn.nextElementSibling;
+  const willShow = body.hidden;
+  body.hidden = !willShow;
+  btn.setAttribute('aria-expanded', String(willShow));
 });
 
 // ---- Rotators: same order+fade cycle as the hero title, embedded in a feed entry ----
@@ -280,17 +323,54 @@ async function initAvPreviews() {
   });
 }
 
+// ---- Embed another page's content inline in an entry (entry.embedFrom:
+// "url.html#containerId"). Used so the GitHuman entry can show tane.html's
+// full text right below itself instead of just linking out to it — one
+// source of truth (tane.html), fetched and inlined rather than duplicated
+// into entries.json.
+async function initEmbeddedPages() {
+  const els = document.querySelectorAll('.entry-embed-page[data-embed-from]');
+  for (const el of els) {
+    const [url, selector] = el.dataset.embedFrom.split('#');
+    try {
+      const res = await fetch(url);
+      const html = await res.text();
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      const source = selector ? doc.getElementById(selector) : doc.body;
+      el.innerHTML = source ? source.innerHTML : '<p class="empty-state">読み込めませんでした。</p>';
+      // tane.htmlの中身は種６のようにそれ自身の.entry-quick-replyを持つことが
+      // あるので、差し込んだ後にもう一度配線する(data-wiredで二重配線は防止済み)。
+      if (typeof initQuickReply === 'function') initQuickReply();
+    } catch (e) {
+      el.innerHTML = '<p class="empty-state">読み込めませんでした。</p>';
+    }
+  }
+}
+
 // Quick reply ("ひとこと〜") now lives in assets/js/quick-reply.js, shared
 // across every page's footer — it self-initializes on load, so nothing to
 // call here.
+
+// トップレベルのナビは top/publication/playground(+about、別ページ)の4つ。
+// 旧来の.audio/.text/.visual/.app/.seedタグは「playgroundのサブタグ」という
+// 位置づけになり、playgroundを選んだときだけ#subTagFilterに出てくる。
+const PLAYGROUND_SUB_TAGS = ['.audio', '.text', '.visual', '.app', '.seed'];
+
+// これらのタグが付いたエントリは"all"(top)表示には出ない(タグを選んだと
+// きだけ出る)。.seedは元からの仕様、publicationはGitHumanの全文を
+// たたんでおくために追加。
+const TAGS_HIDDEN_FROM_ALL = ['.seed', 'publication'];
 
 function renderFeed(filterTag) {
   stopRotators();
   const list = document.getElementById('feedList');
   const isAll = !filterTag || filterTag === 'all';
+  const isPlayground = filterTag === 'playground';
   const filtered = isAll
-    ? allEntries.filter(e => !(e.tags || []).includes('.seed') && !e.hideFromAll)
-    : allEntries.filter(e => (e.tags || []).includes(filterTag));
+    ? allEntries.filter(e => !(e.tags || []).some(t => TAGS_HIDDEN_FROM_ALL.includes(t)) && !e.hideFromAll)
+    : isPlayground
+      ? allEntries.filter(e => (e.tags || []).some(t => PLAYGROUND_SUB_TAGS.includes(t)))
+      : allEntries.filter(e => (e.tags || []).includes(filterTag));
 
   if (!filtered.length) {
     list.innerHTML = '<p class="empty-state">まだ何もありません。</p>';
@@ -306,10 +386,12 @@ function renderFeed(filterTag) {
     html += pinned.map(renderEntry).join('');
   }
 
+  // publicationはGitHuman本体1件だけの特別枠なので、季節見出しは出さない
+  const showYearHeadings = filterTag !== 'publication';
   let lastGroup = null;
   for (const entry of rest) {
     const group = groupKeyOf(entry.date);
-    if (group !== lastGroup) {
+    if (showYearHeadings && group !== lastGroup) {
       html += `<h2 class="feed-year">${group}</h2>`;
       lastGroup = group;
     }
@@ -318,6 +400,7 @@ function renderFeed(filterTag) {
   list.innerHTML = html;
   initRotators();
   initAvPreviews();
+  initEmbeddedPages();
   if (typeof initQuickReply === 'function') initQuickReply();
 }
 
@@ -334,7 +417,8 @@ async function loadTagDescriptions() {
 
 function updateTagDesc(tag) {
   const el = document.getElementById('tagDesc');
-  if (!tag || tag === 'all') {
+  // top/playground/publicationは束ねる側の概念なので、個別の説明文は出さない
+  if (!tag || tag === 'all' || tag === 'playground' || tag === 'publication') {
     el.innerHTML = '';
     return;
   }
@@ -348,32 +432,54 @@ function updateTagDesc(tag) {
     .join('');
   el.innerHTML = `
     ${links ? `<div class="tag-desc-links">${links}</div>` : ''}
-    <p class="tag-desc-text">${escapeHtml(info.desc || '')}</p>
+    <p class="tag-desc-text">${renderTextWithLinks(info.desc || '')}</p>
   `;
 }
 
-const TAG_ORDER = ['.audio', '.text', '.visual', '.app', '.seed'];
+// 選んだタグに応じて、トップレベルの行とサブタグの行、両方のactive状態と
+// サブタグ行の表示/非表示を合わせる。サブタグ(.audio等)を選んだときは、
+// トップレベル側は親であるplaygroundをactiveにする。
+function updateTagButtons(tag) {
+  const isSub = PLAYGROUND_SUB_TAGS.includes(tag);
+  const topActiveTag = isSub ? 'playground' : tag;
+  document.querySelectorAll('#tagFilter .tag-pill[data-tag]').forEach(b => {
+    b.classList.toggle('active', b.dataset.tag === topActiveTag);
+  });
+  const subBar = document.getElementById('subTagFilter');
+  subBar.hidden = !(tag === 'playground' || isSub);
+  subBar.querySelectorAll('.tag-pill[data-tag]').forEach(b => {
+    b.classList.toggle('active', b.dataset.tag === tag);
+  });
+}
+
+function selectTag(tag) {
+  updateTagButtons(tag);
+  renderFeed(tag);
+  updateTagDesc(tag);
+}
 
 function buildTagFilter() {
   const bar = document.getElementById('tagFilter');
-  const used = new Set(allEntries.flatMap(e => e.tags || []));
-  const tags = TAG_ORDER.filter(t => used.has(t));
-
-  tags.forEach(tag => {
-    const btn = document.createElement('button');
-    btn.className = 'tag-pill';
-    btn.dataset.tag = tag;
-    btn.textContent = tag;
-    bar.appendChild(btn);
+  bar.addEventListener('click', (e) => {
+    const btn = e.target.closest('.tag-pill[data-tag]');
+    if (!btn) return;
+    selectTag(btn.dataset.tag);
   });
 
-  bar.addEventListener('click', (e) => {
-    const btn = e.target.closest('.tag-pill');
+  const subBar = document.getElementById('subTagFilter');
+  const used = new Set(allEntries.flatMap(e => e.tags || []));
+  PLAYGROUND_SUB_TAGS.filter(t => used.has(t)).forEach(tag => {
+    const btn = document.createElement('button');
+    btn.className = 'tag-pill sub-tag';
+    btn.dataset.tag = tag;
+    btn.type = 'button';
+    btn.textContent = tag;
+    subBar.appendChild(btn);
+  });
+  subBar.addEventListener('click', (e) => {
+    const btn = e.target.closest('.tag-pill[data-tag]');
     if (!btn) return;
-    bar.querySelectorAll('.tag-pill').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    renderFeed(btn.dataset.tag);
-    updateTagDesc(btn.dataset.tag);
+    selectTag(btn.dataset.tag);
   });
 }
 
@@ -384,18 +490,11 @@ async function init() {
   allEntries = local.filter(e => !e.hidden).sort((a, b) => new Date(b.date) - new Date(a.date));
   buildTagFilter();
 
-  // ?tag=.seed (etc.) in the URL pre-selects that filter on load, so an
+  // ?tag=.audio (etc.) in the URL pre-selects that filter on load, so an
   // entry (or an external link) can point straight at a tag's view instead
-  // of only "top" — used by the GitHuman entry to link into 種箱(.seed).
+  // of only "top" — used by the GitHuman entry to link into publication.
   const initialTag = new URLSearchParams(location.search).get('tag') || 'all';
-  const bar = document.getElementById('tagFilter');
-  const initialBtn = bar.querySelector(`.tag-pill[data-tag="${CSS.escape(initialTag)}"]`);
-  if (initialBtn) {
-    bar.querySelectorAll('.tag-pill').forEach(b => b.classList.remove('active'));
-    initialBtn.classList.add('active');
-  }
-  renderFeed(initialTag);
-  updateTagDesc(initialTag);
+  selectTag(initialTag);
 }
 
 init();

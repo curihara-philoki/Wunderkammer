@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>about — curihara-philoki.com</title>
+<meta name="description" content="curihara philoki について。">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="icon-bar">
+  <a href="index.html" aria-label="top" title="top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M5 12l6-6M5 12l6 6"/></svg>
+  </a>
+</header>
+
+<section class="caption caption-page">
+  <p class="caption-label">解説</p>
+  <p class="caption-name">栗原 博季</p>
+  <div class="caption-text">26年、東京都生まれ。肌触りを残したまま生活を記録・伝達する作品を制作。
+
+近年は、
+・記録の技法として、茶・採集・詩・絵
+・伝達の技法として、回文・交換・音楽
+をベースとしたプロトコル（場所・人・時間に依存せず動作する一連の手続き・約束ごと）を作成。
+また、記録・伝達が共存する働きを「遊び」と称し「みんな」で遊ぶことができるプロジェクトを作成。</div>
+  <button class="caption-more-btn" type="button">さらに読む</button>
+  <div class="caption-text caption-more" hidden>事実の集積である記録・伝達を「酔わせる」ことにより、個人や場が本来持つ鮮やかな振る舞いを手繰り寄せる。
+
+❑ 問い
+・創造や酔いのプロセスは、どこまで鮮やかに、個人・場の振る舞いを記録・伝達できるのか
+・intimateな振る舞いの集まりは（どのくらいの規模（人数・バリエーション）まで）
+　すこやかな場を生み出せるのか/維持できるのか
+
+❑ 関連する社会問題
+・デジタルコミュニケーションの多用と関係者・情報量の増加
+・「みんなの物語」の消失と「個人の物語」の始まり</div>
+  <p class="caption-credit">（文：福田愛海）</p>
+</section>
+
+<div class="entry-quick-reply">
+  <textarea class="quick-reply-textarea" id="aboutQuickReplyTextarea" rows="1" placeholder="ひとこと〜"></textarea>
+  <button class="quick-reply-send" type="button">送る</button>
+</div>
+
+<footer class="site-footer">
+  <p>CreativeCommons ⦿ <span id="year"></span> curihara philoki. All Rights Released<br><a href="index.html">top へ戻る</a></p>
+</footer>
+
+<script src="assets/js/submit-modal.js"></script>
+<script src="assets/js/quick-reply.js"></script>
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.caption-more-btn');
+  if (!btn) return;
+  const more = btn.parentElement.querySelector('.caption-more');
+  const willShow = more.hidden;
+  more.hidden = !willShow;
+  btn.textContent = willShow ? '閉じる' : 'さらに読む';
+});
+
+// 解説の下の投稿欄、プレースホルダーを順番に遷移させる
+const aboutPrompts = [
+  '私達を三色で表すと：（　）（　）（　）',
+  '野菜でたとえると：（　）',
+  '果物でたとえると：（　）',
+  '動物だったら：（　）',
+];
+const aboutTextarea = document.getElementById('aboutQuickReplyTextarea');
+let aboutPromptIndex = 0;
+aboutTextarea.placeholder = aboutPrompts[aboutPromptIndex];
+setInterval(() => {
+  aboutPromptIndex = (aboutPromptIndex + 1) % aboutPrompts.length;
+  aboutTextarea.placeholder = aboutPrompts[aboutPromptIndex];
+}, 3200);
+</script>
+</body>
+</html>
