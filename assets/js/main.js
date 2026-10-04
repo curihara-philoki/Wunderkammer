@@ -126,6 +126,7 @@ function renderEntry(entry) {
   const moreExtraAttr = hasMore ? ' hidden' : '';
 
   const mainContent = `
+      ${entry.bodyBefore ? `<p class="entry-body">${renderTextWithLinks(entry.bodyBefore)}</p>` : ''}
       ${entry.link && !entry.embed && !entry.linkInBody ? `<p class="entry-link-url">${entry.linkPrefix ? escapeHtml(entry.linkPrefix) + ' ' : '↗ '}<a href="${escapeHtml(entry.link)}"${linkAttrs}>${escapeHtml(entry.linkLabel || entry.link)}</a></p>` : ''}
       ${entry.sections ? renderSections(entry.sections) : (entry.body ? `<p class="entry-body">${renderTextWithLinks(entry.body)}</p>` : '')}
       ${entry.image ? `<img class="entry-image${moreExtraClass}"${moreExtraAttr} src="${escapeHtml(entry.image)}" alt="${escapeHtml(entry.title)}" loading="lazy">` : ''}

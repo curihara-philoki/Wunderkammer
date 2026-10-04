@@ -1299,6 +1299,13 @@ a.entry-rotator:hover { border-color: var(--gold-soft); text-decoration: none; }
 .tane-accordion-body h3 { margin-top: 1.4rem; }
 .tane-accordion-body h3:first-child { margin-top: 0.5rem; }
 
+.tane-signoff {
+  text-align: right;
+  color: var(--ink-dim);
+  font-size: 0.95rem;
+  margin: 0 0 1.5rem;
+}
+
 .tane-pdf-link {
   text-align: center;
   margin: 0 0 2rem;
